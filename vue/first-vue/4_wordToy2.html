@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordToy</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <word-toy></word-toy>
+    </div>
+
+    <script>
+        Vue.component('word-toy', {
+            template: `
+            <div>
+                <div>{{firstToy}}</div>
+                <form v-on:submit="onSubmitForm">
+                    <input type="text" ref="focusPLZ" v-model="answer">
+                    <button>Submit</button>
+                </form>
+                <div>{{result}}</div>
+            </div>
+            `,
+            data() {
+                return {
+                    firstToy: '공책',
+                    answer: '',
+                    result: '',
+                };
+            },
+            methods: {
+                onSubmitForm(e) {
+                    e.preventDefault();
+                    if (this.firstToy[this.firstToy.length - 1] === this.answer[0]) {
+                        this.result = '정답';
+                        this.firstToy = this.answer;
+                        this.answer = '';
+                        this.$refs.focusPLZ.focus();
+                    } else {
+                        this.result = '오답';
+                        this.answer = '';
+                        this.$refs.focusPLZ.focus();
+                    }
+                }
+            },
+        })
+    </script>
+
+    <script>
+        const app = new Vue({
+            el: '#root'
+        });
+    </script>
+</body>
+
+</html>
